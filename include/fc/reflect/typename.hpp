@@ -9,13 +9,16 @@
 
 #include <fc/container/flat_fwd.hpp>
 #include <fc/container/deque_fwd.hpp>
+#include <boost/core/demangle.hpp>
 
 namespace fc {
   class value;
   class exception;
   namespace ip { class address; }
 
-  template<typename T> class get_typename{};
+  template<typename T> struct get_typename{
+     static const char* name() { static auto demangled = boost::core::demangle( typeid( T ).name() ); return demangled.c_str(); }
+  };
   template<> struct get_typename<int32_t>  { static const char* name()  { return "int32_t";  } };
   template<> struct get_typename<int64_t>  { static const char* name()  { return "int64_t";  } };
   template<> struct get_typename<int16_t>  { static const char* name()  { return "int16_t";  } };

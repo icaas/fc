@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdint.h>
 
+#include <boost/multiprecision/cpp_int.hpp>
+
 namespace fc {
 
 namespace detail 
@@ -176,6 +178,21 @@ inline datastream<ST>& operator>>(datastream<ST>& ds, uint8_t& d) {
   ds.read((char*)&d, sizeof(d) );
   return ds;
 }
+/*
+template<typename ST, typename T> 
+inline datastream<ST>& operator<<(datastream<ST>& ds, const boost::multiprecision::number<T>& n) {
+   unsigned char data[(std::numeric_limits<decltype(n)>::digits+1)/8];
+   ds.read( (char*)data, sizeof(data) );
+   boost::multiprecision::import_bits( n, data, data + sizeof(data), 1 );
+}
+
+template<typename ST, typename T> 
+inline datastream<ST>& operator>>(datastream<ST>& ds, boost::multiprecision::number<T>& n) {
+   unsigned char data[(std::numeric_limits<decltype(n)>::digits+1)/8];
+   boost::multiprecision::export_bits( n, data, 1 );
+   ds.write( (const char*)data, sizeof(data) );
+}
+*/
 
 
 } // namespace fc
